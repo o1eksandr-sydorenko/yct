@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -6,20 +6,15 @@ import { IApiTag, ISwaggerConfig } from './swagger.interface';
 
 @Injectable()
 export class SwaggerService {
-  constructor(private readonly configService: ConfigService) {}
-
   async setup(
     app: NestFastifyApplication,
     swaggerConfig: ISwaggerConfig
   ): Promise<void> {
-    Logger.log({ config: this.configService });
+    const configService = app.get(ConfigService);
 
     const config = new DocumentBuilder()
       .addServer(
-        this.configService.get<string>(
-          'SWAGGER_SERVER',
-          'http://localhost:3000'
-        ),
+        configService.get<string>('SWAGGER_SERVER', 'http://localhost:3000'),
         'Server'
       )
       .setTitle(swaggerConfig.title)

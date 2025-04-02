@@ -4,7 +4,7 @@ import { DbModule } from '@your-crypto-tracker/db';
 import { CoreModule } from '@your-crypto-tracker/core';
 
 @Module({
-  imports: [DbModule, CoreModule, UsersModule],
+  imports: [CoreModule, DbModule, UsersModule],
   controllers: [],
   providers: [],
 })

@@ -4,6 +4,19 @@
   "sourceRoot": "libs/core/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project core --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/core",
+        "main": "libs/core/src/index.ts",
+        "tsConfig": "libs/core/tsconfig.lib.json",
+        "assets": ["libs/core/*.md", ".npmrc"],
+        "bundle": true,
+        "platform": "node",
+        "format": ["cjs", "esm"]
+      }
+    }
+  }
 }

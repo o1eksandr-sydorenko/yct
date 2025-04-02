@@ -23,7 +23,7 @@ import {
           : defaultEnvValidationSchema,
     }),
   ],
-  controllers: [],
+
   providers: [SwaggerService],
   exports: [SwaggerService],
 })

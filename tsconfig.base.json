@@ -35,5 +35,6 @@
       "@your-crypto-tracker/core": ["libs/core/src/index.ts"],
       "@your-crypto-tracker/db": ["libs/db/src/index.ts"]
     }
-  }
+  },
+  "exclude": ["node_modules", "tmp"]
 }
