@@ -32,6 +32,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "paths": {
+      "@your-crypto-tracker/core": ["libs/core/src/index.ts"],
       "@your-crypto-tracker/db": ["libs/db/src/index.ts"]
     }
   }

@@ -37,6 +37,7 @@ services:
       - ./libs:/app/libs
       - ./tsconfig.base.json:/app/tsconfig.base.json
       - ./package.json:/app/package.json
+      - ./.env:/app/.env
     ports:
       - '3000:3000'
     environment:
@@ -55,10 +56,11 @@ services:
       dockerfile: docker/Dockerfile.local
     command: sh -c "pnpm start worker"
     volumes:
-      - ./apps/api:/app/apps/api
+      - ./apps/worker:/app/apps/worker
       - ./libs:/app/libs
       - ./tsconfig.base.json:/app/tsconfig.base.json
       - ./package.json:/app/package.json
+      - ./.env:/app/.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/crypto
       REDIS_URL: redis://redis:6379

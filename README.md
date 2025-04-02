@@ -1,9 +1,10 @@
 # YourCryptoTracker
 
-## Add new application
+## Add new app/lib
 
 ```bash
 npx nx g @nx/nest:application apps/[name]
+npx nx generate @nx/nest:library libs/[name]
 ```
 
 ## Generate prisma client
