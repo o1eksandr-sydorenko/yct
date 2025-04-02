@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    networks:
+      - yct
+    restart: unless-stopped
+    ports:
+      - '5434:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: crypto
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    networks:
+      - yct
+    container_name: redis
+    ports:
+      - '6379:6379'
+
+  api:
+    container_name: api
+    networks:
+      - yct
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.local
+    command: sh -c "pnpm start api"
+    volumes:
+      - ./apps/api:/app/apps/api
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/crypto
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    container_name: worker
+    networks:
+      - yct
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.local
+    command: sh -c "pnpm start worker"
+    volumes:
+      - ./apps/api:/app/apps/api
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/crypto
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  pgdata:
+
+networks:
+  yct:
+    driver: bridge

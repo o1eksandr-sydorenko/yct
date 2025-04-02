@@ -2,20 +2,60 @@
   "name": "@your-crypto-tracker/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "publish": "nx publish",
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test",
+    "start:all": "nx run-many --target=serve --all --parallel",
+    "build:all": "nx run-many --target=build --all --parallel"
+  },
   "private": true,
-  "dependencies": {},
   "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "@nestjs/schematics": "^10.0.1",
+    "@nestjs/testing": "^10.0.2",
+    "@nx-tools/nx-prisma": "^6.5.0",
+    "@nx/eslint": "20.7.0",
+    "@nx/eslint-plugin": "20.7.0",
     "@nx/js": "20.7.0",
+    "@nx/nest": "^20.7.0",
+    "@nx/node": "20.7.0",
+    "@nx/web": "20.7.0",
+    "@nx/webpack": "20.7.0",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@types/dotenv-safe": "^8.1.6",
+    "@types/node": "~18.16.9",
+    "eslint": "^9.8.0",
+    "eslint-config-prettier": "^10.0.0",
     "nx": "20.7.0",
     "prettier": "^2.6.2",
+    "prisma": "^6.5.0",
     "tslib": "^2.3.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.19.0",
+    "webpack-cli": "^5.1.4"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@nestjs/common": "^10.0.2",
+    "@nestjs/core": "^10.0.2",
+    "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/platform-fastify": "^10.4.15",
+    "@prisma/client": "^6.5.0",
+    "axios": "^1.6.0",
+    "dotenv-safe": "^9.1.0",
+    "fastify": "^5.2.2",
+    "pg": "^8.14.1",
+    "prisma-extension-pagination": "^0.7.5",
+    "prisma-extension-soft-delete": "^2.0.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0"
+  },
+  "prisma": {
+    "schema": "libs/db/src/prisma/schema.prisma"
+  },
+  "packageManager": "pnpm@10.7.1+sha512.2d92c86b7928dc8284f53494fb4201f983da65f0fb4f0d40baafa5cf628fa31dae3e5968f12466f17df7e97310e30f343a648baea1b9b350685dafafffdf5808"
 }
