@@ -4,19 +4,5 @@
   "sourceRoot": "libs/db/src",
   "projectType": "library",
   "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/db",
-        "main": "libs/db/src/index.ts",
-        "tsConfig": "libs/db/tsconfig.lib.json",
-        "assets": ["libs/db/*.md", ".npmrc"],
-        "bundle": true,
-        "platform": "node",
-        "format": ["cjs", "esm"]
-      }
-    }
-  }
+  "targets": {}
 }

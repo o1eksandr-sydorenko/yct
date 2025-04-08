@@ -4,7 +4,7 @@ export const swaggerConfig: ISwaggerConfig = {
   title: 'Api Docs',
   description: 'Api Socumentation',
   version: '1.0.0',
-  path: 'api/swagger-docs',
+  path: 'docs',
   tags: [
     {
       name: 'Authorization',

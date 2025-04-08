@@ -12,16 +12,11 @@
         "outputPath": "dist/apps/worker",
         "main": "apps/worker/src/main.ts",
         "tsConfig": "apps/worker/tsconfig.app.json",
+        "esbuildConfig": "esbuild.config.ts",
         "bundle": false,
         "format": ["cjs"],
         "assets": ["apps/worker/src/assets"],
-        "generatePackageJson": true,
-        "esbuildOptions": {
-          "sourcemap": true,
-          "outExtension": {
-            ".js": ".js"
-          }
-        }
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

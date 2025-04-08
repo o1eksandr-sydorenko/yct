@@ -31,11 +31,13 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.local
-    command: sh -c "pnpm start api"
+    command: sh -c "npx prisma generate
+      && pnpm start api"
     volumes:
       - ./apps/api:/app/apps/api
       - ./libs:/app/libs
       - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./esbuild.config.js:/app/esbuild.config.ts
       - ./package.json:/app/package.json
       - ./.env:/app/.env
     ports:
@@ -59,6 +61,7 @@ services:
       - ./apps/worker:/app/apps/worker
       - ./libs:/app/libs
       - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./esbuild.config.js:/app/esbuild.config.js
       - ./package.json:/app/package.json
       - ./.env:/app/.env
     environment:

@@ -13,6 +13,12 @@ npx nx generate @nx/nest:library libs/[name]
 npx prisma generate
 ```
 
+## Reset database to start point
+
+```bash
+npx prisma migrate reset
+```
+
 ## Generate prisma migration + apply to the database
 
 ```bash
