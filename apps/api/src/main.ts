@@ -1,13 +1,18 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { BaseExceptionFilter, SwaggerService } from '@your-crypto-tracker/core';
+import {
+  BaseExceptionFilter,
+  SwaggerService,
+  ValidationException,
+} from '@your-crypto-tracker/core';
 import { swaggerConfig } from './config';
-import { useContainer } from 'class-validator';
+import { useContainer, ValidationError } from 'class-validator';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -17,6 +22,15 @@ async function bootstrap(): Promise<void> {
   const configService = app.get(ConfigService);
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      exceptionFactory: (errors: ValidationError[]): ValidationException =>
+        new ValidationException(errors),
+    })
+  );
   app.useGlobalFilters(new BaseExceptionFilter());
 
   const swaggerService = app.get(SwaggerService);
