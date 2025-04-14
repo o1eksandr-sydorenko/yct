@@ -25,19 +25,19 @@ services:
       - '6379:6379'
 
   api:
-    container_name: api
     networks:
       - yct
     build:
       context: .
       dockerfile: docker/Dockerfile.local
+    image: your-crypto-tracker:latest
     command: sh -c "npx prisma generate
       && pnpm start api"
     volumes:
       - ./apps/api:/app/apps/api
       - ./libs:/app/libs
       - ./tsconfig.base.json:/app/tsconfig.base.json
-      - ./esbuild.config.js:/app/esbuild.config.ts
+      - ./esbuild.config.js:/app/esbuild.config.js
       - ./package.json:/app/package.json
       - ./.env:/app/.env
     ports:
@@ -50,12 +50,9 @@ services:
       - redis
 
   worker:
-    container_name: worker
+    image: your-crypto-tracker:latest
     networks:
       - yct
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.local
     command: sh -c "pnpm start worker"
     volumes:
       - ./apps/worker:/app/apps/worker

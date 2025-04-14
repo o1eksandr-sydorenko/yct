@@ -12,7 +12,7 @@
         "outputPath": "dist/apps/worker",
         "main": "apps/worker/src/main.ts",
         "tsConfig": "apps/worker/tsconfig.app.json",
-        "esbuildConfig": "esbuild.config.ts",
+        "esbuildConfig": "esbuild.config.js",
         "bundle": false,
         "format": ["cjs"],
         "assets": ["apps/worker/src/assets"],
