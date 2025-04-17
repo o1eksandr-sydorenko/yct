@@ -68,6 +68,25 @@ services:
       - postgres
       - redis
 
+  web:
+    image: your-crypto-tracker:latest
+    networks:
+      - yct
+    command: sh -c "pnpm run start:web:dev"
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./esbuild.config.js:/app/esbuild.config.js
+      - ./package.json:/app/package.json
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+    depends_on:
+      - api
+
 volumes:
   pgdata:
 

@@ -1,3 +1,13 @@
+# Node artefacts
 node_modules
 dist
-.git
+.next
+.cache
+.idea
+.vscode
+npm-debug.log*
+pnpm-debug.log*
+# Nx / Turborepo caches
+tmp
+# OS noise
+.DS_Store
