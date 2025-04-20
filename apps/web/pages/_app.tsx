@@ -1,19 +1,29 @@
 import '../src/styles/global.css';
 import { AppProps } from 'next/app';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import lightTheme from '../src/themes/lightTheme';
 import MainLayout from '../src/components/layouts/MainLayout';
+import { ThemeProvider, useTheme } from '../src/contexts/ThemeContext';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function ThemedApp({ Component, pageProps }: AppProps) {
+  const { currentTheme } = useTheme();
+
   return (
-    <ThemeProvider theme={lightTheme}>
-      <CssBaseline />
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
+    <ThemeProvider>
+      <MuiThemeProvider theme={currentTheme}>
+        <CssBaseline />
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </MuiThemeProvider>
     </ThemeProvider>
   );
 }
 
-export default MyApp;
+export default function App(props: AppProps) {
+  return (
+    <ThemeProvider>
+      <ThemedApp {...props} />
+    </ThemeProvider>
+  );
+}

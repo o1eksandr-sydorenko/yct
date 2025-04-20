@@ -3,7 +3,6 @@ import { FooterGroupTitle, StyledFooterBox } from './styles';
 
 export default function MainFooter() {
   return (
-    // <Box sx={{ backgroundColor: '#f1f1f1' }}>
     <StyledFooterBox>
       <Box sx={{ mt: 4, pl: 4, pr: 4, py: 4 }}>
         <Grid
@@ -47,7 +46,5 @@ export default function MainFooter() {
         © {new Date().getFullYear()} Your Crypto Tracker
       </Typography>
     </StyledFooterBox>
-
-    // </Box>
   );
 }

@@ -1,49 +1,82 @@
+import { useState } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   IconButton,
   Box,
+  useMediaQuery,
+  useTheme as useMuiTheme,
 } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuIcon from '@mui/icons-material/Menu';
+import { MobileMenu } from './menu/MobileMenu';
+import { DesktopMenu } from './menu/DesktopMenu';
+import { useTheme } from '../../contexts/ThemeContext';
 
-export default function MainHeader() {
+const menuItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Markets', href: '/markets' },
+  { label: 'About', href: '/about' },
+];
+
+const MainHeader = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
+  const { isDarkMode, toggleTheme } = useTheme();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
     <AppBar position="sticky" color="primary">
       <Toolbar>
+        {isMobile && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Your Crypto Tracker
         </Typography>
 
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button color="inherit" href="/">
-            Home
-          </Button>
-          <Button color="inherit" href="/features">
-            Features
-          </Button>
-          <Button color="inherit" href="/pricing">
-            Pricing
-          </Button>
-          <Button color="inherit" href="/about">
-            About
-          </Button>
-        </Box>
+        {!isMobile && <DesktopMenu menuItems={menuItems} />}
 
         <Box sx={{ marginLeft: 'auto', display: 'flex', gap: 1 }}>
-          <Button color="inherit" href="/login">
-            Login
-          </Button>
-          <IconButton color="inherit">
-            <Brightness4Icon />
+          <IconButton
+            color="inherit"
+            onClick={toggleTheme}
+            aria-label="toggle theme"
+          >
+            {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton color="inherit" href="/login">
             <AccountCircle />
           </IconButton>
         </Box>
+
+        {isMobile && (
+          <MobileMenu
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            menuItems={menuItems}
+          />
+        )}
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+export default MainHeader;
