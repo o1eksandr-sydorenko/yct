@@ -12,6 +12,8 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  // Enable pages directory
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
 };
 
 const plugins = [
