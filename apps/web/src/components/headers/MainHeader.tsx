@@ -18,9 +18,9 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 const menuItems = [
   { label: 'Home', href: '/' },
-  { label: 'Portfolio', href: '/portfolio' },
-  { label: 'Markets', href: '/markets' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
+  { label: 'Features', href: '/features' },
 ];
 
 const MainHeader = () => {
