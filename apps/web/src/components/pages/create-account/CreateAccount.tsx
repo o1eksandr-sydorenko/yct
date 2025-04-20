@@ -5,41 +5,71 @@ import {
   Container,
   Typography,
   Divider,
-  Link as MuiLink,
+  FormHelperText,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { StyledLoginBox } from './styles';
+import { StyledCreateAccountBox } from './styles';
 import { useFormValidation } from '../../../hooks/useFormValidation';
 import { initialValues, validationRules } from './config';
 
-export const Login = () => {
+export const CreateAccount = () => {
   const router = useRouter();
+
   const { values, errors, touched, handleChange, handleBlur, validateForm } =
     useFormValidation({
       initialValues,
       validationRules,
     });
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Add your login logic here
+      // Add your create account logic here
       router.push('/dashboard');
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <StyledLoginBox>
+      <StyledCreateAccountBox>
         <Typography component="h1" variant="h5">
-          Sign in
+          Create Account
         </Typography>
         <Box
           component="form"
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit}
           sx={{ mt: 1, width: '100%' }}
         >
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            autoComplete="given-name"
+            autoFocus
+            value={values.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.firstName && !!errors.firstName}
+            helperText={touched.firstName && errors.firstName}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoComplete="family-name"
+            value={values.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.lastName && !!errors.lastName}
+            helperText={touched.lastName && errors.lastName}
+          />
           <TextField
             margin="normal"
             required
@@ -48,7 +78,7 @@ export const Login = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
+            type="email"
             value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -63,30 +93,39 @@ export const Login = () => {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             value={values.password}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.password && !!errors.password}
             helperText={touched.password && errors.password}
           />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-            <MuiLink
-              component={Link}
-              href="/forgot-password"
-              variant="body2"
-              underline="hover"
-            >
-              Forgot Password?
-            </MuiLink>
-          </Box>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="repeatPassword"
+            label="Repeat Password"
+            type="password"
+            id="repeatPassword"
+            autoComplete="new-password"
+            value={values.repeatPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.repeatPassword && !!errors.repeatPassword}
+            helperText={touched.repeatPassword && errors.repeatPassword}
+          />
+          <FormHelperText sx={{ mt: 1 }}>
+            Password must be at least 8 characters long and contain uppercase,
+            lowercase, and numbers
+          </FormHelperText>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 2, mb: 2 }}
+            sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Create
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
@@ -99,15 +138,15 @@ export const Login = () => {
 
           <Button
             component={Link}
-            href="/create-account"
+            href="/login"
             fullWidth
             variant="contained"
             sx={{ mt: 1 }}
           >
-            Create Account
+            Sign In
           </Button>
         </Box>
-      </StyledLoginBox>
+      </StyledCreateAccountBox>
     </Container>
   );
 };

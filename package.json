@@ -34,6 +34,7 @@
     "@types/node": "~18.16.9",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
+    "@types/react-google-recaptcha": "^2.1.9",
     "esbuild-plugin-typescript-decorators": "^0.1.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
@@ -71,6 +72,7 @@
     "prisma-extension-soft-delete": "^2.0.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-google-recaptcha": "^3.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "snakecase-keys": "^8.0.1"
