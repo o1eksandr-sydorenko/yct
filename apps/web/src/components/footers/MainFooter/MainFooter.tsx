@@ -1,8 +1,10 @@
 import { Box, Typography, Grid, Link } from '@mui/material';
+import { FooterGroupTitle, StyledFooterBox } from './styles';
 
 export default function MainFooter() {
   return (
-    <Box sx={{ backgroundColor: '#f1f1f1' }}>
+    // <Box sx={{ backgroundColor: '#f1f1f1' }}>
+    <StyledFooterBox>
       <Box sx={{ mt: 4, pl: 4, pr: 4, py: 4 }}>
         <Grid
           container
@@ -10,9 +12,7 @@ export default function MainFooter() {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           <Grid size={{ xs: 2, sm: 4, md: 4 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Company
-            </Typography>
+            <FooterGroupTitle>Company</FooterGroupTitle>
             <Link href="#" underline="hover">
               About
             </Link>
@@ -22,9 +22,7 @@ export default function MainFooter() {
             </Link>
           </Grid>
           <Grid size={{ xs: 2, sm: 4, md: 4 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Product
-            </Typography>
+            <FooterGroupTitle>Product</FooterGroupTitle>
             <Link href="#" underline="hover">
               Features
             </Link>
@@ -34,9 +32,7 @@ export default function MainFooter() {
             </Link>
           </Grid>
           <Grid size={{ xs: 2, sm: 4, md: 4 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              Follow Us
-            </Typography>
+            <FooterGroupTitle>Follow Us</FooterGroupTitle>
             <Link href="#" underline="hover">
               Twitter
             </Link>
@@ -50,6 +46,8 @@ export default function MainFooter() {
       <Typography variant="body2" align="center">
         © {new Date().getFullYear()} Your Crypto Tracker
       </Typography>
-    </Box>
+    </StyledFooterBox>
+
+    // </Box>
   );
 }

@@ -14,7 +14,7 @@ export default function MainHeader() {
     <AppBar position="sticky" color="primary">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          CryptoTrack
+          Your Crypto Tracker
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 2 }}>

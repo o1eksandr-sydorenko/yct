@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
     // Check if user is authenticated
-    const isAuthenticated = false; // Replace with your auth check
+    const isAuthenticated = true; // Replace with your auth check
 
     if (!isAuthenticated) {
       router.push('/login');

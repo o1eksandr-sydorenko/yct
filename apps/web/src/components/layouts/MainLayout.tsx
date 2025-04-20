@@ -1,7 +1,7 @@
 import { Box, Container } from '@mui/material';
 import { ReactNode } from 'react';
 import MainHeader from '../headers/MainHeader';
-import MainFooter from '../footers/MainFooter';
+import MainFooter from '../footers/MainFooter/MainFooter';
 import { StyledLayoutContainer } from '../shared/styles';
 
 interface MainLayoutProps {
