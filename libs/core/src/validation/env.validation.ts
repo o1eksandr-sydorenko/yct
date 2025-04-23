@@ -16,6 +16,13 @@ export const apiEnvValidationSchema = Joi.object({
 
   // Optional
   SWAGGER_SERVER: Joi.string().uri().optional(),
+
+  // Bcrypt
+  BCRYPT_SALT_ROUNDS: Joi.number().default(10),
+
+  // JWT
+  JWT_SECRET: Joi.string().required(),
+  JWT_EXPIRATION_TIME: Joi.number().default(3600),
 });
 
 export const defaultEnvValidationSchema = Joi.object({});

@@ -10,24 +10,27 @@ import {
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { StyledLoginBox } from './styles';
-import { useFormValidation } from '../../../hooks/useFormValidation';
-import { initialValues, validationRules } from './config';
+import { LoginDto } from '@your-crypto-tracker/api-client';
+import { loginSchema } from '@/lib/validations/auth';
+import { useFormSubmition } from '@/hooks/useFormSubmition';
+import api from '@/clients/api';
 
 export const Login = () => {
   const router = useRouter();
-  const { values, errors, touched, handleChange, handleBlur, validateForm } =
-    useFormValidation({
-      initialValues,
-      validationRules,
-    });
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Add your login logic here
+  const { error, isLoading, register, handleSubmit, errors } =
+    useFormSubmition<LoginDto>(loginSchema, async (data: LoginDto) => {
+      const response = await api.auth.authControllerLogin({
+        email: data.email,
+        password: data.password,
+      });
+
+      // Store the token
+      localStorage.setItem('token', response.data.accessToken);
+
+      // Redirect to dashboard
       router.push('/dashboard');
-    }
-  };
+    });
 
   return (
     <Container maxWidth="sm">
@@ -37,7 +40,7 @@ export const Login = () => {
         </Typography>
         <Box
           component="form"
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit}
           sx={{ mt: 1, width: '100%' }}
         >
           <TextField
@@ -46,30 +49,29 @@ export const Login = () => {
             fullWidth
             id="email"
             label="Email Address"
-            name="email"
             autoComplete="email"
             autoFocus
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.email && !!errors.email}
-            helperText={touched.email && errors.email}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            {...register('email')}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.password && !!errors.password}
-            helperText={touched.password && errors.password}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            {...register('password')}
           />
+          {error && (
+            <Typography color="error" sx={{ mt: 1 }}>
+              {error}
+            </Typography>
+          )}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
             <MuiLink
               component={Link}
@@ -85,8 +87,9 @@ export const Login = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 2, mb: 2 }}
+            disabled={isLoading}
           >
-            Sign In
+            {isLoading ? 'Signing in...' : 'Sign In'}
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>

@@ -10,6 +10,42 @@
  * ---------------------------------------------------------------
  */
 
+export interface LoginDto {
+  email: string;
+  password: string;
+}
+
+export interface BaseErrorResponse {
+  /** The error name */
+  error: string;
+  /** The error message */
+  message: string;
+}
+
+export interface ValidationErrorProperty {
+  name: string;
+  messages: string[];
+  key: string;
+}
+
+export interface ValidationErrorResponse {
+  error: string;
+  message: string;
+  properties: ValidationErrorProperty[];
+}
+
+export interface AuthResponseDto {
+  accessToken: string;
+  expiresIn: number;
+}
+
+export interface RegisterDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export interface CreateUserDto {
   role: string;
   email: string;
@@ -237,6 +273,40 @@ export class HttpClient<SecurityDataType = unknown> {
  * Api Socumentation
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  auth = {
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name AuthControllerLogin
+     * @request POST:/auth/login
+     */
+    authControllerLogin: (data: LoginDto, params: RequestParams = {}) =>
+      this.request<any, BaseErrorResponse | ValidationErrorResponse | AuthResponseDto>({
+        path: `/auth/login`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name AuthControllerRegister
+     * @request POST:/auth/register
+     */
+    authControllerRegister: (data: RegisterDto, params: RequestParams = {}) =>
+      this.request<AuthResponseDto, BaseErrorResponse | ValidationErrorResponse>({
+        path: `/auth/register`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+  };
   users = {
     /**
      * No description

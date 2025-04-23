@@ -7,5 +7,3 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY . .
 
 RUN pnpm install && pnpm prisma generate
-
-EXPOSE 3000

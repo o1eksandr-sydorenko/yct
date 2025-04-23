@@ -11,7 +11,7 @@ export const prismaClient = new PrismaClient({
         User: true,
       },
       defaultConfig: {
-        field: 'deleted_at',
+        field: 'deletedAt',
         createValue: (deleted) => {
           if (deleted) {
             return new Date();

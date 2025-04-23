@@ -1,34 +1,41 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { RegisterDto } from '@your-crypto-tracker/api-client';
 import {
-  TextField,
   Button,
+  TextField,
   Box,
-  Container,
   Typography,
+  Container,
   Divider,
-  FormHelperText,
+  Link,
 } from '@mui/material';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { StyledCreateAccountBox } from './styles';
-import { useFormValidation } from '../../../hooks/useFormValidation';
-import { initialValues, validationRules } from './config';
+import { registerSchema } from '@/lib/validations/auth';
+import { useFormSubmition } from '@/hooks/useFormSubmition';
+import api from '@/clients/api';
 
 export const CreateAccount = () => {
   const router = useRouter();
 
-  const { values, errors, touched, handleChange, handleBlur, validateForm } =
-    useFormValidation({
-      initialValues,
-      validationRules,
-    });
+  const { error, isLoading, register, handleSubmit, errors } =
+    useFormSubmition<RegisterDto>(
+      registerSchema,
+      async (data: RegisterDto): Promise<void> => {
+        const response = await api.auth.authControllerRegister({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+        });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Add your create account logic here
-      router.push('/dashboard');
-    }
-  };
+        // Store the token
+        localStorage.setItem('accessToken', response.data.accessToken);
+
+        router.push('/dashboard');
+      }
+    );
 
   return (
     <Container maxWidth="sm">
@@ -47,14 +54,10 @@ export const CreateAccount = () => {
             fullWidth
             id="firstName"
             label="First Name"
-            name="firstName"
-            autoComplete="given-name"
             autoFocus
-            value={values.firstName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.firstName && !!errors.firstName}
-            helperText={touched.firstName && errors.firstName}
+            error={!!errors.firstName}
+            helperText={errors.firstName?.message}
+            {...register('firstName')}
           />
           <TextField
             margin="normal"
@@ -62,13 +65,9 @@ export const CreateAccount = () => {
             fullWidth
             id="lastName"
             label="Last Name"
-            name="lastName"
-            autoComplete="family-name"
-            value={values.lastName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.lastName && !!errors.lastName}
-            helperText={touched.lastName && errors.lastName}
+            error={!!errors.lastName}
+            helperText={errors.lastName?.message}
+            {...register('lastName')}
           />
           <TextField
             margin="normal"
@@ -76,56 +75,36 @@ export const CreateAccount = () => {
             fullWidth
             id="email"
             label="Email Address"
-            name="email"
             autoComplete="email"
-            type="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.email && !!errors.email}
-            helperText={touched.email && errors.email}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            {...register('email')}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="new-password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.password && !!errors.password}
-            helperText={touched.password && errors.password}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            {...register('password')}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="repeatPassword"
-            label="Repeat Password"
-            type="password"
-            id="repeatPassword"
-            autoComplete="new-password"
-            value={values.repeatPassword}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.repeatPassword && !!errors.repeatPassword}
-            helperText={touched.repeatPassword && errors.repeatPassword}
-          />
-          <FormHelperText sx={{ mt: 1 }}>
-            Password must be at least 8 characters long and contain uppercase,
-            lowercase, and numbers
-          </FormHelperText>
+          {error && (
+            <Typography color="error" sx={{ mt: 1 }}>
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
           >
-            Create
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>

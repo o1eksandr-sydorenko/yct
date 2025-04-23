@@ -11,7 +11,7 @@ import {
   SwaggerService,
   ValidationException,
 } from '@your-crypto-tracker/core';
-import { swaggerConfig } from './config';
+import { corsConfig, swaggerConfig } from './config';
 import { useContainer, ValidationError } from 'class-validator';
 
 async function bootstrap(): Promise<void> {
@@ -32,6 +32,7 @@ async function bootstrap(): Promise<void> {
     })
   );
   app.useGlobalFilters(new BaseExceptionFilter());
+  app.enableCors(corsConfig);
 
   const swaggerService = app.get(SwaggerService);
   await swaggerService.setup(app, swaggerConfig);

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './users/user.module';
+import { UsersModule } from './users/users.module';
 import { DbModule } from '@your-crypto-tracker/db';
 import { CoreModule } from '@your-crypto-tracker/core';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [CoreModule, DbModule, UserModule],
+  imports: [CoreModule, DbModule, AuthModule, UsersModule],
   controllers: [],
   providers: [],
 })
