@@ -1,10 +1,12 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services';
-import { LoginDto, RegisterDto, AuthResponseDto } from '../dto';
+import { AuthResponseDto, LoginDto, RegisterDto } from '../dto';
 import { ApiResponseWithErrors } from '@your-crypto-tracker/core';
+import { Public } from '../decorators';
 
 @ApiTags('Auth')
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

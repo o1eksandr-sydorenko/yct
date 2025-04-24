@@ -22,7 +22,7 @@ export const apiEnvValidationSchema = Joi.object({
 
   // JWT
   JWT_SECRET: Joi.string().required(),
-  JWT_EXPIRATION_TIME: Joi.number().default(3600),
+  JWT_EXPIRATION_TIME_SECONDS: Joi.number().default(3600),
 });
 
 export const defaultEnvValidationSchema = Joi.object({});

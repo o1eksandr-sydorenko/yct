@@ -3,17 +3,12 @@ import { applyDecorators, Type } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { BaseErrorResponse, ValidationErrorResponse } from '../responses';
 
-export function ApiResponseWithErrors<T>(options: {
+export function ApiResponseWithErrors<T>(options?: {
   status?: number;
-  type: Type<T>;
+  type?: Type<T>;
   description?: string;
 }) {
-  return applyDecorators(
-    ApiResponse({
-      status: options.status,
-      type: options.type,
-      description: options.description,
-    }),
+  const decorators = [
     ApiResponse({
       status: 400,
       type: BaseErrorResponse,
@@ -43,6 +38,18 @@ export function ApiResponseWithErrors<T>(options: {
       status: 500,
       type: BaseErrorResponse,
       description: 'Internal Server Error',
-    })
-  );
+    }),
+  ];
+
+  if (options) {
+    decorators.unshift(
+      ApiResponse({
+        status: options.status,
+        type: options.type,
+        description: options.description,
+      })
+    );
+  }
+
+  return applyDecorators(...decorators);
 }

@@ -6,6 +6,7 @@ import type { User } from '@prisma/client';
 import { compare, genSalt, hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPropertyException } from '@your-crypto-tracker/core';
+import { JwtPayload } from '../types';
 
 @Injectable()
 export class AuthService {
@@ -18,10 +19,7 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     const user = await this.validateUser(loginDto.email, loginDto.password);
 
-    return {
-      accessToken: await this.assignJwtToken(user),
-      expiresIn: this.configService.get<number>('JWT_EXPIRES_IN', 3600),
-    };
+    return this.getAuthResponse(user);
   }
 
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
@@ -41,6 +39,10 @@ export class AuthService {
       password: hashedPassword,
     });
 
+    return this.getAuthResponse(user);
+  }
+
+  async getAuthResponse(user: User): Promise<AuthResponseDto> {
     return {
       accessToken: await this.assignJwtToken(user),
       expiresIn: this.configService.get<number>('JWT_EXPIRES_IN', 3600),
@@ -51,6 +53,7 @@ export class AuthService {
     const salt: string = await genSalt(
       +this.configService.get<number>('BCRYPT_SALT_ROUNDS', 10)
     );
+
     return await hash(password, salt);
   }
 
@@ -59,12 +62,14 @@ export class AuthService {
   }
 
   async assignJwtToken(user: User) {
-    const payload = { email: user.email, sub: user.id };
+    const payload: JwtPayload = { email: user.email, sub: user.id };
+
     return this.jwtService.signAsync(payload);
   }
 
   private async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
+
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -73,6 +78,7 @@ export class AuthService {
       password,
       user.password
     );
+
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
     }

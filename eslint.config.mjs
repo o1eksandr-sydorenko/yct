@@ -23,6 +23,14 @@ export default [
           ],
         },
       ],
+      'padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: ['if', 'for', 'while', 'return'],
+        },
+      ],
     },
   },
   {
