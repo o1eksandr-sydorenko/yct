@@ -15,6 +15,11 @@ export interface LoginDto {
   password: string;
 }
 
+export interface AuthResponseDto {
+  accessToken: string;
+  expiresIn: number;
+}
+
 export interface BaseErrorResponse {
   /** The error name */
   error: string;
@@ -32,11 +37,6 @@ export interface ValidationErrorResponse {
   error: string;
   message: string;
   properties: ValidationErrorProperty[];
-}
-
-export interface AuthResponseDto {
-  accessToken: string;
-  expiresIn: number;
 }
 
 export interface RegisterDto {
@@ -282,11 +282,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/auth/login
      */
     authControllerLogin: (data: LoginDto, params: RequestParams = {}) =>
-      this.request<any, BaseErrorResponse | ValidationErrorResponse | AuthResponseDto>({
+      this.request<AuthResponseDto, BaseErrorResponse | ValidationErrorResponse>({
         path: `/auth/login`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
+        format: 'json',
         ...params,
       }),
 

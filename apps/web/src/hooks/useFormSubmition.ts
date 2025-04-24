@@ -31,6 +31,8 @@ export const useFormSubmition = <T extends FieldValues>(
 
       await callback(data);
     } catch (err) {
+      console.log(err);
+
       if (isValidationErrorResponse(err)) {
         err.error.properties.forEach((property) => {
           setFieldError(property.name as Path<T>, {
@@ -46,7 +48,7 @@ export const useFormSubmition = <T extends FieldValues>(
       } else if (isBaseErrorResponse(err)) {
         setError(formatErrorMessage(err.error.message));
       } else {
-        setError((err as Error)?.message || 'Failed to create account');
+        setError((err as Error)?.message || 'Something went wrong');
       }
     } finally {
       setIsLoading(false);

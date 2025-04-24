@@ -45,7 +45,10 @@ export class AuthService {
   async getAuthResponse(user: User): Promise<AuthResponseDto> {
     return {
       accessToken: await this.assignJwtToken(user),
-      expiresIn: this.configService.get<number>('JWT_EXPIRES_IN', 3600),
+      expiresIn: this.configService.get<number>(
+        'JWT_EXPIRATION_TIME_SECONDS',
+        3600
+      ),
     };
   }
 

@@ -10,6 +10,11 @@ export function ApiResponseWithErrors<T>(options?: {
 }) {
   const decorators = [
     ApiResponse({
+      status: options?.status || 200,
+      type: options?.type,
+      description: options?.description,
+    }),
+    ApiResponse({
       status: 400,
       type: BaseErrorResponse,
       description: 'Bad Request',
@@ -40,16 +45,6 @@ export function ApiResponseWithErrors<T>(options?: {
       description: 'Internal Server Error',
     }),
   ];
-
-  if (options) {
-    decorators.unshift(
-      ApiResponse({
-        status: options.status,
-        type: options.type,
-        description: options.description,
-      })
-    );
-  }
 
   return applyDecorators(...decorators);
 }
