@@ -46,8 +46,21 @@ export interface RegisterDto {
   password: string;
 }
 
+export interface ProfileDto {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  role: 'USER' | 'ADMIN';
+  permissions: string[];
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
+}
+
 export interface CreateUserDto {
-  role: string;
+  role: 'USER' | 'ADMIN';
   email: string;
   password: string;
   firstName?: string;
@@ -304,6 +317,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'POST',
         body: data,
         type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+  };
+  profile = {
+    /**
+     * No description
+     *
+     * @tags Profile
+     * @name ProfileControllerGetProfile
+     * @request GET:/profile
+     * @secure
+     */
+    profileControllerGetProfile: (params: RequestParams = {}) =>
+      this.request<ProfileDto, BaseErrorResponse | ValidationErrorResponse>({
+        path: `/profile`,
+        method: 'GET',
+        secure: true,
         format: 'json',
         ...params,
       }),

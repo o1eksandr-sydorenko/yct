@@ -11,7 +11,8 @@
     "start:all": "nx run-many --target=serve --all --parallel",
     "build:all": "nx run-many --target=build --all --parallel",
     "g:ac": "swagger-typescript-api generate -p http://localhost:3000/docs-json -o libs/api-client/src -n api.client.ts",
-    "g:pc": "npx prisma generate"
+    "p:g": "npx prisma generate",
+    "p:m": "npx prisma migrate dev --skip-seed --force --name "
   },
   "private": true,
   "devDependencies": {

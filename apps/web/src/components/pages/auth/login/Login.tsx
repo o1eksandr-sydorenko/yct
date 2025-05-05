@@ -7,30 +7,19 @@ import {
   Divider,
   Link as MuiLink,
 } from '@mui/material';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { StyledLoginBox } from './styles';
 import { LoginDto } from '@your-crypto-tracker/api-client';
 import { loginSchema } from '@/lib/validations/auth';
 import { useFormSubmition } from '@/hooks/useFormSubmition';
-import api from '@/clients/api';
+import { ROUTES } from '@/constants';
+import { useAuth } from '@/hooks/useAuth';
 
 export const Login = () => {
-  const router = useRouter();
+  const { login } = useAuth();
 
   const { error, isLoading, register, handleSubmit, errors } =
-    useFormSubmition<LoginDto>(loginSchema, async (data: LoginDto) => {
-      const response = await api.auth.authControllerLogin({
-        email: data.email,
-        password: data.password,
-      });
-
-      // Store the token
-      localStorage.setItem('token', response.data.accessToken);
-
-      // Redirect to dashboard
-      router.push('/dashboard');
-    });
+    useFormSubmition<LoginDto>(loginSchema, login);
 
   return (
     <Container maxWidth="sm">
@@ -102,7 +91,7 @@ export const Login = () => {
 
           <Button
             component={Link}
-            href="/create-account"
+            href={ROUTES.AUTH.REGISTER}
             fullWidth
             variant="contained"
             sx={{ mt: 1 }}

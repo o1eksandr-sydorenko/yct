@@ -1,5 +1,7 @@
+import { Role } from '@prisma/client';
+
 export interface CreateUserInput {
-  role: string;
+  role: Role;
   email: string;
   password: string;
   firstName?: string;

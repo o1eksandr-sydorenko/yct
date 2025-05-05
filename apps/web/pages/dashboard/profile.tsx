@@ -1,5 +1,5 @@
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { Container, Typography, Box } from '@mui/material';
-import ProtectedRoute from '../../src/components/ProtectedRoute';
 
 const ProfilePage = () => {
   return (

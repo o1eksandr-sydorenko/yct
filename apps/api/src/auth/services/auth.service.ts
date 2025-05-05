@@ -1,8 +1,8 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginDto, RegisterDto, AuthResponseDto } from '../dto';
+import { LoginDto, RegisterDto, AuthResponseDto, ProfileDto } from '../dto';
 import { UsersService } from '../../users/services';
-import type { User } from '@prisma/client';
+import { Role, type User } from '@prisma/client';
 import { compare, genSalt, hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPropertyException } from '@your-crypto-tracker/core';
@@ -35,7 +35,7 @@ export class AuthService {
     const hashedPassword = await this.encryptPassword(registerDto.password);
     const user = await this.usersService.create({
       ...registerDto,
-      role: 'USER',
+      role: Role.USER,
       password: hashedPassword,
     });
 
@@ -52,6 +52,26 @@ export class AuthService {
     };
   }
 
+  async getProfileById(id: string): Promise<ProfileDto> {
+    const user = await this.usersService.findById(id);
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    const { email, firstName, lastName, role, createdAt, updatedAt } = user;
+
+    return {
+      id,
+      email,
+      firstName: firstName ?? undefined,
+      lastName: lastName ?? undefined,
+      role,
+      permissions: [],
+      createdAt,
+      updatedAt,
+    };
+  }
+
   async encryptPassword(password: string) {
     const salt: string = await genSalt(
       +this.configService.get<number>('BCRYPT_SALT_ROUNDS', 10)
@@ -65,7 +85,11 @@ export class AuthService {
   }
 
   async assignJwtToken(user: User) {
-    const payload: JwtPayload = { email: user.email, sub: user.id };
+    const payload: JwtPayload = {
+      email: user.email,
+      sub: user.id,
+      role: user.role as Role,
+    };
 
     return this.jwtService.signAsync(payload);
   }

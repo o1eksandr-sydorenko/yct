@@ -10,18 +10,12 @@ import {
 } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { MobileMenu } from './menu/MobileMenu';
 import { DesktopMenu } from './menu/DesktopMenu';
 import { useTheme } from '../../contexts/ThemeContext';
-
-const menuItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
-  { label: 'Features', href: '/features' },
-];
+import { menuItems } from './constants';
+import { UserMenu } from './menu/UserMenu';
 
 const MainHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -62,9 +56,7 @@ const MainHeader = () => {
           >
             {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
-          <IconButton color="inherit" href="/login">
-            <AccountCircle />
-          </IconButton>
+          <UserMenu />
         </Box>
 
         {isMobile && (

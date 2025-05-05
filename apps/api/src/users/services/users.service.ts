@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '@your-crypto-tracker/db';
 import { CreateUserInput } from '../input';
-import type { User } from '.prisma/client';
+import type { User } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +12,12 @@ export class UsersService {
   async findByEmail(email: string): Promise<User | null> {
     return this.prismaService.db.user.findUnique({
       where: { email },
+    });
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return this.prismaService.db.user.findUnique({
+      where: { id },
     });
   }
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { RegisterDto } from '@your-crypto-tracker/api-client';
 import {
   Button,
@@ -14,28 +13,14 @@ import {
 import { StyledCreateAccountBox } from './styles';
 import { registerSchema } from '@/lib/validations/auth';
 import { useFormSubmition } from '@/hooks/useFormSubmition';
-import api from '@/clients/api';
+import { useAuth } from '@/hooks/useAuth';
+import { ROUTES } from '@/constants';
 
 export const CreateAccount = () => {
-  const router = useRouter();
+  const { register: registerUser } = useAuth();
 
   const { error, isLoading, register, handleSubmit, errors } =
-    useFormSubmition<RegisterDto>(
-      registerSchema,
-      async (data: RegisterDto): Promise<void> => {
-        const response = await api.auth.authControllerRegister({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-        });
-
-        // Store the token
-        localStorage.setItem('accessToken', response.data.accessToken);
-
-        router.push('/dashboard');
-      }
-    );
+    useFormSubmition<RegisterDto>(registerSchema, registerUser);
 
   return (
     <Container maxWidth="sm">
@@ -117,7 +102,7 @@ export const CreateAccount = () => {
 
           <Button
             component={Link}
-            href="/login"
+            href={ROUTES.AUTH.LOGIN}
             fullWidth
             variant="contained"
             sx={{ mt: 1 }}

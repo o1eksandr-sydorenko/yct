@@ -1,4 +1,3 @@
-// theme/lightTheme.ts
 import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({

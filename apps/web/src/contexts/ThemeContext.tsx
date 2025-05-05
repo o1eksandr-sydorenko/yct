@@ -22,13 +22,12 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  // Always start with false for SSR
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize theme after mount
   useEffect(() => {
     const stored = localStorage.getItem(THEME_KEY);
+
     if (stored === 'dark') {
       setIsDarkMode(true);
     }
@@ -45,7 +44,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setIsDarkMode((prev) => !prev);
   };
 
-  // Don't render children until client-side initialization is complete
   if (!isInitialized) {
     return null;
   }
@@ -61,8 +59,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
+
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
+
   return context;
 };
