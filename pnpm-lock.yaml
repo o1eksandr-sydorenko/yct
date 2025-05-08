@@ -68,6 +68,9 @@ importers:
       class-validator:
         specifier: ^0.14.1
         version: 0.14.1
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       fastify:
         specifier: ^4.28.1
         version: 4.28.1
@@ -113,6 +116,9 @@ importers:
       zod:
         specifier: ^3.24.3
         version: 3.24.3
+      zustand:
+        specifier: ^5.0.4
+        version: 5.0.4(@types/react@18.3.1)(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.8.0
@@ -3862,6 +3868,9 @@ packages:
   csv-parse@5.6.0:
     resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
 
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
+
   date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}
     engines: {node: '>=4.0'}
@@ -7497,6 +7506,24 @@ packages:
 
   zod@3.24.3:
     resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
+
+  zustand@5.0.4:
+    resolution: {integrity: sha512-39VFTN5InDtMd28ZhjLyuTnlytDr9HfwO512Ai4I8ZABCoyAj4F1+sr7sD1jP/+p7k77Iko0Pb5NhgBFDCX0kQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
 
 snapshots:
 
@@ -11870,6 +11897,8 @@ snapshots:
 
   csv-parse@5.6.0: {}
 
+  date-fns@4.1.0: {}
+
   date-format@4.0.14: {}
 
   debug@2.6.9:
@@ -15848,3 +15877,8 @@ snapshots:
   yocto-queue@1.2.1: {}
 
   zod@3.24.3: {}
+
+  zustand@5.0.4(@types/react@18.3.1)(react@18.3.1):
+    optionalDependencies:
+      '@types/react': 18.3.1
+      react: 18.3.1

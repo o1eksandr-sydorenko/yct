@@ -9,13 +9,15 @@ import {
   Typography,
 } from '@mui/material';
 import { AccountCircle, Settings, Logout, Devices } from '@mui/icons-material';
-import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
+
+import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants';
+import { useHeaderAuth } from '@/hooks/useAuth';
 
 export const UserMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useHeaderAuth();
+
   const router = useRouter();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

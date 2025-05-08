@@ -9,17 +9,11 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { StyledLoginBox } from './styles';
-import { LoginDto } from '@your-crypto-tracker/api-client';
-import { loginSchema } from '@/lib/validations/auth';
-import { useFormSubmition } from '@/hooks/useFormSubmition';
 import { ROUTES } from '@/constants';
-import { useAuth } from '@/hooks/useAuth';
+import { useLoginForm } from '@/hooks/forms/useLoginForm';
 
 export const Login = () => {
-  const { login } = useAuth();
-
-  const { error, isLoading, register, handleSubmit, errors } =
-    useFormSubmition<LoginDto>(loginSchema, login);
+  const { error, isLoading, register, handleSubmit, errors } = useLoginForm();
 
   return (
     <Container maxWidth="sm">

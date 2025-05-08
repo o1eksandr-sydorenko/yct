@@ -1,4 +1,5 @@
-import { Button, Box, Link } from '@mui/material';
+import { Button, Box } from '@mui/material';
+import Link from 'next/link';
 
 interface DesktopMenuProps {
   menuItems: Array<{ label: string; href: string }>;

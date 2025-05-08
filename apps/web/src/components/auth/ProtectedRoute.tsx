@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthPermissions } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { ROUTES } from '@/constants';
@@ -12,7 +12,7 @@ export const ProtectedRoute = ({
   children,
   requiredPermissions = [],
 }: ProtectedRouteProps) => {
-  const { isAuthenticated, isLoading, hasPermission } = useAuth();
+  const { isAuthenticated, isLoading, hasPermission } = useAuthPermissions();
   const router = useRouter();
 
   useEffect(() => {

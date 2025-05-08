@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
+          image: your-crypto-tracker:latest
+          command: ['sh', '-c']
+          args:
+            - |
+              npx prisma generate && pnpm start api
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: 'postgres://postgres:postgres@postgres:5432/crypto'
+            - name: REDIS_URL
+              value: 'redis://redis:6379'

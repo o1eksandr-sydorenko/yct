@@ -11,7 +11,7 @@ export class UsersService {
 
   async findByEmail(email: string): Promise<User | null> {
     return this.prismaService.db.user.findUnique({
-      where: { email },
+      where: { email: email.toLowerCase() },
     });
   }
 
@@ -25,6 +25,7 @@ export class UsersService {
     return await this.prismaService.db.user.create({
       data: {
         ...data,
+        email: data.email.toLowerCase(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },

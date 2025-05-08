@@ -1,5 +1,6 @@
-import { Button, Link } from '@mui/material';
+import { Button } from '@mui/material';
 import { StyledMobileMenu, StyledDrawer } from '../../shared/styles';
+import Link from 'next/link';
 
 interface MobileMenuProps {
   open: boolean;

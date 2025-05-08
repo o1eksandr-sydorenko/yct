@@ -1,12 +1,29 @@
-import { useContext } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
+import { useAuthStore } from '@/store/auth';
+import { useShallow } from 'zustand/react/shallow';
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
+export const useHeaderAuth = () =>
+  useAuthStore(
+    useShallow((s) => ({
+      user: s.user,
+      isAuthenticated: s.isAuthenticated,
+      logout: s.logout,
+    }))
+  );
 
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+export const useAuthPermissions = () =>
+  useAuthStore(
+    useShallow((s) => ({
+      isAuthenticated: s.isAuthenticated,
+      isLoading: s.isLoading,
+      hasPermission: s.hasPermission,
+    }))
+  );
 
-  return context;
-};
+export const useLogin = () => useAuthStore((state) => state.login);
+export const useRegister = () => useAuthStore((state) => state.register);
+export const useLogout = () => useAuthStore((state) => state.logout);
+export const useGetProfile = () => useAuthStore((state) => state.getProfile);
+export const useCheckAuth = () => useAuthStore((state) => state.checkAuth);
+export const useIsAuthenticated = () =>
+  useAuthStore((state) => state.isAuthenticated);
+export const useUser = () => useAuthStore((state) => state.user);

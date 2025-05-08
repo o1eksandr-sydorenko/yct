@@ -1,6 +1,5 @@
 'use client';
 
-import { RegisterDto } from '@your-crypto-tracker/api-client';
 import {
   Button,
   TextField,
@@ -11,16 +10,12 @@ import {
   Link,
 } from '@mui/material';
 import { StyledCreateAccountBox } from './styles';
-import { registerSchema } from '@/lib/validations/auth';
-import { useFormSubmition } from '@/hooks/useFormSubmition';
-import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/constants';
+import { useRegisterform } from '@/hooks/forms/useRegisterForm';
 
-export const CreateAccount = () => {
-  const { register: registerUser } = useAuth();
-
+export const Register = () => {
   const { error, isLoading, register, handleSubmit, errors } =
-    useFormSubmition<RegisterDto>(registerSchema, registerUser);
+    useRegisterform();
 
   return (
     <Container maxWidth="sm">

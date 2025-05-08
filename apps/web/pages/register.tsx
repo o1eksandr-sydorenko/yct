@@ -1,5 +1,5 @@
 import { PublicRoute } from '@/components/auth/PublicRoute';
-import { CreateAccount } from '@/components/pages/auth/register/CreateAccount';
+import { Register } from '@/components/pages/auth/register/Register';
 import { Metadata } from '@/components/shared/Metadata';
 
 const RegisterPage = () => {
@@ -9,7 +9,7 @@ const RegisterPage = () => {
         title="Create Account"
         description="Create your account to start tracking your crypto investments"
       />
-      <CreateAccount />
+      <Register />
     </PublicRoute>
   );
 };

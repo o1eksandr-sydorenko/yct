@@ -1,10 +1,10 @@
-import { useAuth } from '@/hooks/useAuth';
+import { useIsAuthenticated } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { ROUTES } from '@/constants';
 
 export const PublicRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = useIsAuthenticated();
   const router = useRouter();
 
   useEffect(() => {
