@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import api from '@/clients/api';
+import { apiClient } from '@/clients/api';
 import {
   LoginDto,
   RegisterDto,
@@ -11,8 +11,8 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
-  login: (data: LoginDto) => Promise<void>;
-  register: (data: RegisterDto) => Promise<void>;
+  login: (payload: LoginDto) => Promise<void>;
+  register: (payload: RegisterDto) => Promise<void>;
   logout: () => void;
   checkAuth: () => Promise<void>;
   getProfile: () => Promise<void>;
@@ -25,11 +25,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   error: null,
   isAuthenticated: false,
 
-  login: async (data: LoginDto) => {
+  login: async (payload: LoginDto) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.auth.authControllerLogin(data);
-      localStorage.setItem('accessToken', response.data.accessToken);
+      const data = await apiClient.auth.authControllerLogin(payload);
+      localStorage.setItem('accessToken', data.accessToken);
       await get().getProfile();
     } catch (error: unknown) {
       set({ error: error instanceof Error ? error.message : 'Login failed' });
@@ -39,11 +39,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  register: async (data: RegisterDto) => {
+  register: async (payload: RegisterDto) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.auth.authControllerRegister(data);
-      localStorage.setItem('accessToken', response.data.accessToken);
+      const data = await apiClient.auth.authControllerRegister(payload);
+      localStorage.setItem('accessToken', data.accessToken);
       await get().getProfile();
     } catch (error: unknown) {
       set({
@@ -70,9 +70,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   getProfile: async () => {
     try {
-      const response = await api.profile.profileControllerGetProfile();
+      const user = await apiClient.profile.profileControllerGetProfile();
       set({
-        user: response.data,
+        user,
         isAuthenticated: true,
         error: null,
       });
@@ -82,8 +82,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: false,
         user: null,
       });
-      localStorage.removeItem('accessToken');
-      throw error;
     }
   },
 

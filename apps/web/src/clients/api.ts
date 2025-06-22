@@ -1,32 +1,34 @@
 import { Api } from '@your-crypto-tracker/api-client';
 import { ROUTES } from '@/constants';
+import { AxiosRequestConfig } from 'axios';
 
-const api = new Api({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
-  customFetch: async (url: RequestInfo | URL, options: RequestInit = {}) => {
-    const token = localStorage.getItem('accessToken');
+const apiClient = new Api({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  format: 'json',
+  securityWorker: (): AxiosRequestConfig => {
+    const result: AxiosRequestConfig = {
+      headers: {},
+    };
 
-    if (token) {
-      options.headers = {
-        ...options.headers,
-        Authorization: `Bearer ${token}`,
-      };
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (result.headers && accessToken) {
+      result.headers.Authorization = `Bearer ${accessToken}`;
     }
 
-    try {
-      const response = await fetch(url, options);
-
-      if (response.status === 401) {
-        localStorage.removeItem('accessToken');
-        window.location.href = ROUTES.AUTH.LOGIN;
-      }
-
-      return response;
-    } catch (error) {
-      console.error('Fetch error:', error);
-      throw error;
-    }
+    return result;
   },
 });
 
-export default api;
+apiClient.instance.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    if (localStorage.getItem('accessToken')) {
+      localStorage.removeItem('accessToken');
+    }
+    window.location.href = ROUTES.AUTH.LOGIN;
+  }
+
+  return response;
+});
+
+export { apiClient };

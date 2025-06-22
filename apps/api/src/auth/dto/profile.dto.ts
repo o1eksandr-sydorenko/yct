@@ -14,7 +14,7 @@ export class ProfileDto {
   @ApiProperty({ required: false })
   lastName?: string;
 
-  @ApiProperty({ enum: Role })
+  @ApiProperty({ enum: Role, enumName: 'UserRole' })
   role: Role;
 
   @ApiProperty()

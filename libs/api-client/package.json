@@ -1,0 +1,22 @@
+{
+  "name": "@your-crypto-tracker/api-client",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "files": [],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "crypto",
+    "api",
+    "client",
+    "typescript"
+  ],
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "author": "Oleksandr Sydorenko",
+  "license": "ISC"
+}
